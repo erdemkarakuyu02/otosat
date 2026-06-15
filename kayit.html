@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol | Otosat.org</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar"><a href="index.html" class="logo">Otosat.org</a><nav></nav></header>
+    <div class="auth-wrapper">
+        <h2 style="color: #e53935; margin-bottom: 25px;">Yeni Hesap Oluştur</h2>
+        <div style="background:#fff3cd; color:#856404; padding:10px; border-radius:5px; margin-bottom:15px; font-size:13px;">
+            <b>⚠️ Önemli:</b> Güvenlik gereği ad ve soyad bilgileri kayıt olduktan sonra kesinlikle <u>değiştirilemez</u>. Lütfen gerçek bilgilerinizi giriniz.
+        </div>
+        <form id="register-form">
+            <div class="filter-group"><label>Adınız</label><input type="text" id="reg-name" required></div>
+            <div class="filter-group" style="margin-top: 15px;"><label>Soyadınız</label><input type="text" id="reg-surname" required></div>
+            <div class="filter-group" style="margin-top: 15px;"><label>E-Posta</label><input type="email" required></div>
+            <div class="filter-group" style="margin-top: 15px;"><label>Şifre</label><input type="password" id="reg-pass" required minlength="6"></div>
+            <div class="filter-group" style="margin-top: 15px;"><label>Şifre (Tekrar)</label><input type="password" id="reg-pass-confirm" required minlength="6"></div>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 12px;">Kayıt Ol</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

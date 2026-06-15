@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Ayarları | Otosat.org</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar"><a href="index.html" class="logo">Otosat.org</a><nav></nav></header>
+    <div class="auth-wrapper" style="max-width: 500px; margin-top: 50px;">
+        <h2 style="color: #e53935; margin-bottom: 25px;">👤 Profil Ayarları</h2>
+        
+        <div class="filter-group">
+            <label>E-Posta Adresi</label><input type="email" id="prof-email" disabled style="background:#eee;">
+        </div>
+        <div class="filter-group" style="margin-top:15px;">
+            <label>Adınız <span style="color:red; font-size:11px;">(Değiştirilemez)</span></label>
+            <input type="text" id="prof-name" disabled style="background:#eee;">
+        </div>
+        <div class="filter-group" style="margin-top:15px;">
+            <label>Soyadınız <span style="color:red; font-size:11px;">(Değiştirilemez)</span></label>
+            <input type="text" id="prof-surname" disabled style="background:#eee;">
+        </div>
+        
+        <hr style="margin:20px 0; border:1px solid #ddd;">
+        
+        <h3 style="margin-bottom:15px;">🔒 Şifre Değiştir</h3>
+        <div class="filter-group">
+            <label>Yeni Şifre</label><input type="password" id="prof-new-pass" placeholder="Yeni şifrenizi girin">
+        </div>
+        <button id="prof-update-btn" class="btn-primary" style="width: 100%; margin-top: 20px; padding: 12px;">Şifremi Güncelle</button>
+
+        <hr style="margin:30px 0 20px 0; border:1px solid #ffcdd2;">
+        <h3 style="margin-bottom:15px; color:#d32f2f;">⚠️ Tehlikeli Bölge</h3>
+        <p style="font-size:13px; color:#555; margin-bottom:15px;">Hesabınızı sildiğinizde tüm profil verileriniz sistemden kalıcı olarak temizlenir. Bu işlem geri alınamaz.</p>
+        <button id="prof-delete-btn" class="btn-primary" style="width: 100%; padding: 12px; background-color: #d32f2f;">Hesabımı Tamamen Sil</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
