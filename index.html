@@ -46,7 +46,6 @@
                     <select id="filter-brand"><option value="all">Tüm Markalar</option></select>
                 </div>
 
-                <!-- YENİ EKLENEN FİLTRELER -->
                 <div class="filter-group" style="margin-bottom: 15px;">
                     <label>Model</label>
                     <select id="filter-model" disabled><option value="all">Önce Marka Seçin</option></select>
@@ -62,12 +61,32 @@
                     <select id="filter-district" disabled><option value="all">Önce İl Seçin</option></select>
                 </div>
 
-                <div class="filter-group" style="margin-bottom: 18px;">
+                <div class="filter-group" style="margin-bottom: 15px;">
                     <label>Yıl Aralığı</label>
                     <div style="display:flex; gap:10px;">
                         <input type="number" id="filter-min-year" placeholder="Min" style="padding: 10px;">
                         <input type="number" id="filter-max-year" placeholder="Max" style="padding: 10px;">
                     </div>
+                </div>
+
+                <!-- YENİ: FİYAT ARALIĞI -->
+                <div class="filter-group" style="margin-bottom: 15px;">
+                    <label>Fiyat Aralığı (TL)</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="filter-min-price" placeholder="Min" style="padding: 10px;">
+                        <input type="number" id="filter-max-price" placeholder="Max" style="padding: 10px;">
+                    </div>
+                </div>
+
+                <!-- YENİ: AKILLI SIRALAMA -->
+                <div class="filter-group" style="margin-bottom: 18px;">
+                    <label>Sıralama</label>
+                    <select id="filter-sort">
+                        <option value="date-desc">En Yeni İlanlar</option>
+                        <option value="date-asc">En Eski İlanlar</option>
+                        <option value="price-asc">Fiyat: Ucuzdan Pahalıya</option>
+                        <option value="price-desc">Fiyat: Pahalıdan Ucuza</option>
+                    </select>
                 </div>
                 
                 <button id="filter-button" class="btn-primary" style="width: 100%; background:#454f5b;">Sonuçları Göster</button>
