@@ -35,7 +35,7 @@ async function startEngine() {
 
 document.addEventListener('DOMContentLoaded', async function() {
     
-    // TÜRKİYE'NİN 81 İLİ VE TÜM İLÇELERİ (EKSİKSİZ)
+    // TÜRKİYE'NİN 81 İLİ VE TÜM İLÇELERİ
     const locDatabase = {
         "Adana":["Aladağ","Ceyhan","Çukurova","Feke","İmamoğlu","Karaisalı","Karataş","Kozan","Pozantı","Saimbeyli","Sarıçam","Seyhan","Tufanbeyli","Yumurtalık","Yüreğir"],
         "Adıyaman":["Besni","Çelikhan","Gerger","Gölbaşı","Kahta","Merkez","Samsat","Sincik","Tut"],
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         "Zonguldak":["Alaplı","Çaycuma","Devrek","Ereğli","Gökçebey","Kilimli","Kozlu","Merkez"]
     };
 
-    // DEVASA SAHİBİNDEN KATEGORİ SİSTEMİ (EKSİKSİZ)
+    // DEVASA SAHİBİNDEN KATEGORİ SİSTEMİ
     const masterDB = {
         "Otomobil": {
             "Alfa Romeo": ["147", "156", "159", "Giulietta", "MiTo", "Stelvio", "Tonale"], 
@@ -238,25 +238,22 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         if(fc) { fc.innerHTML='<option value="">Kategori Seçin</option>'; Object.keys(masterDB).forEach(c => fc.appendChild(new Option(c, c))); }
         if(filCat) { filCat.innerHTML='<option value="all">Tüm Kategoriler</option>'; Object.keys(masterDB).forEach(c => filCat.appendChild(new Option(c, c))); }
-        
         if(fc && fb && fm) {
             fc.addEventListener('change', function() {
                 fb.innerHTML='<option value="">Marka Seçin</option>'; fm.innerHTML='<option value="">Önce marka</option>'; fm.disabled=true;
                 if(this.value && masterDB[this.value]) { fb.disabled=false; Object.keys(masterDB[this.value]).sort().forEach(b => fb.appendChild(new Option(b, b))); } else { fb.disabled=true; }
             });
             fb.addEventListener('change', function() {
-                fm.innerHTML='<option value="">Model/Seri Seçin</option>'; const cat = fc.value;
+                fm.innerHTML='<option value="">Model</option>'; const cat = fc.value;
                 if(this.value && cat && masterDB[cat][this.value]) { fm.disabled=false; masterDB[cat][this.value].sort().forEach(m => fm.appendChild(new Option(m, m))); } else { fm.disabled=true; }
             });
         }
-
         if(filCat && filBrand) {
             filCat.addEventListener('change', function() {
                 filBrand.innerHTML='<option value="all">Tüm Markalar</option>';
                 if(this.value !== 'all' && masterDB[this.value]) { Object.keys(masterDB[this.value]).sort().forEach(b => filBrand.appendChild(new Option(b, b))); }
             });
         }
-
         if(city) { city.innerHTML='<option value="">İl Seçin</option>'; Object.keys(locDatabase).sort().forEach(c => city.appendChild(new Option(c, c))); }
         if(city && dist) {
             city.addEventListener('change', function() {
@@ -267,7 +264,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     populateSelects();
 
-    // FORMU DİNAMİK GİZLE/GÖSTER (Kiralık-Satılık, Araba-Motor)
+    // FORMU DİNAMİK GİZLE/GÖSTER
     const formType = document.getElementById('form-type');
     const formCat = document.getElementById('form-category');
     const expWrapper = document.getElementById('expertise-wrapper');
@@ -293,7 +290,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if(formCat) formCat.addEventListener('change', checkFormDisplay);
 
     const engine = await startEngine();
-    if(!engine) return; // Motor yüklenemezse HTML'deki sabit butonlar kalır, çökmez.
+    if(!engine) return; 
     
     let auth = engine.auth; 
     let db = engine.db;
@@ -467,7 +464,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         } catch (err) { alert("Hata: " + err.message); btn.textContent = "İlanı Onaya Gönder"; btn.disabled = false; }
     });
 
-    // İLAN DÜZENLEME MOTORU (TAM KAPSAMLI)
+    // İLAN DÜZENLEME MOTORU
     const editForm = document.getElementById('edit-listing-form');
     if (editForm) {
         const urlId = new URLSearchParams(window.location.search).get('id');
@@ -542,7 +539,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         if(document.getElementById('favorites-list') && doc.exists) applyFilters(); 
     };
 
-    // VİTRİN / İLANLARIM FİLTRESİ VE DİZİLİMİ
+    // VİTRİN / İLANLARIM FİLTRESİ VE DİZİLİMİ (DONMA KORUMALI)
     const listCont = document.getElementById('car-listings') || document.getElementById('my-listings') || document.getElementById('favorites-list');
     let allListings = [];
     if (listCont) {
@@ -561,11 +558,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         function applyFilters() {
             const isFavPage = document.getElementById('favorites-list') !== null;
             const isMyListings = document.getElementById('my-listings') !== null;
+            
+            // HATA ÇÖZÜMÜ: Arama kutusu o sayfada var mı yok mu kontrol et
+            const searchInput = document.querySelector('.search-box input');
+            
             const f = {
                 type: document.getElementById('filter-type') ? document.getElementById('filter-type').value : 'all',
                 category: document.getElementById('filter-category') ? document.getElementById('filter-category').value : 'all',
                 brand: document.getElementById('filter-brand') ? document.getElementById('filter-brand').value : 'all',
-                search: document.querySelector('.search-box input') ? document.querySelector('.search-box input').value.toLowerCase().trim() : ""
+                search: searchInput ? searchInput.value.toLowerCase().trim() : ""
             };
 
             listCont.innerHTML = '';
@@ -586,18 +587,25 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const heartIcon = userFavorites.includes(c.id) ? '❤️' : '🤍';
 
                 if(isMyListings) {
-                    if(c.status === 'pending') statusBadge = `<span class="badge-type" style="background:#fbc02d; color:#000;">⏳ Onay Bekliyor</span>`;
-                    else if(c.status === 'rejected') statusBadge = `<span class="badge-type" style="background:#d32f2f;">❌ Reddedildi</span>`;
-                    else statusBadge = `<span class="badge-type" style="background:#388e3c;">✅ Yayında</span>`;
+                    if(c.status === 'pending') statusBadge = `<span style="position:absolute; top:10px; left:10px; background:#fbc02d; color:#000; padding:4px 8px; font-size:12px; border-radius:4px; font-weight:bold; z-index:5;">⏳ Onay Bekliyor</span>`;
+                    else if(c.status === 'rejected') statusBadge = `<span style="position:absolute; top:10px; left:10px; background:#d32f2f; color:#fff; padding:4px 8px; font-size:12px; border-radius:4px; font-weight:bold; z-index:5;">❌ Reddedildi</span>`;
+                    else statusBadge = `<span style="position:absolute; top:10px; left:10px; background:#388e3c; color:#fff; padding:4px 8px; font-size:12px; border-radius:4px; font-weight:bold; z-index:5;">✅ Yayında</span>`;
                     editBtn = `<a href="ilan-duzenle.html?id=${c.id}" style="position:absolute; top:10px; right:10px; background:#2196F3; color:white; padding:6px 12px; border-radius:4px; font-weight:bold; font-size:12px; z-index:10; text-decoration:none;">✏️ Düzenle</a>`;
                 }
 
+                // YAMUK KART ÇÖZÜMÜ: CSS eksik olsa bile kart tasarımını içeriden kilitledik
                 listCont.innerHTML += `
-                    <a href="detay.html?id=${c.id}" class="card">
+                    <a href="detay.html?id=${c.id}" class="card" style="display:flex; flex-direction:column; position:relative; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1); text-decoration:none; color:inherit;">
                         ${statusBadge} ${editBtn}
-                        ${!isMyListings ? `<button onclick="toggleFav(event, '${c.id}')" style="position:absolute; top:10px; right:10px; background:white; border:none; border-radius:50%; padding:8px; cursor:pointer; z-index:10; font-size:16px;">${heartIcon}</button>` : ''}
-                        <div class="card-img-container"><img src="${coverImage}"></div>
-                        <div class="card-content"><h3>${c.title}</h3><p class="price">${c.price}</p><p class="details">${c.city} • ${c.category}</p></div>
+                        ${!isMyListings ? `<button onclick="toggleFav(event, '${c.id}')" style="position:absolute; top:10px; right:10px; background:white; border:none; border-radius:50%; padding:8px; cursor:pointer; z-index:10; font-size:16px; box-shadow:0 2px 4px rgba(0,0,0,0.2);">${heartIcon}</button>` : ''}
+                        <div class="card-img-container" style="position:relative; width:100%; height:200px; background:#eee;">
+                            <img src="${coverImage}" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div class="card-content" style="padding:15px; display:flex; flex-direction:column; flex-grow:1;">
+                            <h3 style="font-size:16px; margin-bottom:10px; color:#333;">${c.title}</h3>
+                            <p class="price" style="font-size:18px; font-weight:bold; color:#e53935; margin-bottom:5px;">${c.price}</p>
+                            <p class="details" style="font-size:13px; color:#777; margin-top:auto;">${c.city} • ${c.category}</p>
+                        </div>
                     </a>`;
             });
         }
@@ -624,7 +632,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                     mainImg.src = photos[0]; 
                     if(thumbnailsCont) { thumbnailsCont.innerHTML = ''; photos.forEach(url => { const img = document.createElement('img'); img.src = url; img.onclick = () => mainImg.src = url; thumbnailsCont.appendChild(img); }); }
 
-                    // TAKAS, HASAR, TRAMER TABLO BİLGİLERİ
                     if(c.type === 'Satılık') {
                         document.getElementById('extra-details').style.display = 'block';
                         document.getElementById('det-takas').textContent = c.takas === 'Evet' ? 'Açık' : 'Kapalı';
@@ -634,7 +641,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                         document.getElementById('det-tramer').textContent = c.tramer ? c.tramer + " TL" : "Belirtilmemiş";
                     }
 
-                    // EKSPERTİZ ŞEMASI ÇİZİMİ
                     const expSec = document.getElementById('expertise-section');
                     const expGrid = document.getElementById('det-expertise');
                     if(expSec && expGrid && c.expertise) {
@@ -658,143 +664,79 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
-    // ==========================================
-    // TAM ÇALIŞAN ADMIN PANELİ MOTORU
-    // ==========================================
+    // ADMIN PANELİ 
     if (document.getElementById('admin-listings-body')) {
         auth.onAuthStateChanged(user => {
             if (!user || user.email !== ADMIN_EMAIL) return window.location.href = 'index.html';
             
-            // 1. TÜM KULLANICILARI ÇEK
             db.collection('users').get().then(snap => {
                 const tbody = document.getElementById('admin-users-body');
                 if(!tbody) return;
                 tbody.innerHTML = '';
-                if(snap.empty) { 
-                    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Kayıtlı kullanıcı yok.</td></tr>'; 
-                } else {
-                    snap.forEach(doc => {
-                        const u = doc.data();
-                        tbody.innerHTML += `<tr><td>👤 ${u.ad || '-'} ${u.soyad || '-'}</td><td>✉️ ${u.email}</td></tr>`;
-                    });
-                }
-            }).catch(err => console.error("Kullanıcılar çekilirken hata:", err));
+                if(snap.empty) { tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Kayıtlı kullanıcı yok.</td></tr>'; } 
+                else { snap.forEach(doc => { const u = doc.data(); tbody.innerHTML += `<tr><td>👤 ${u.ad || '-'} ${u.soyad || '-'}</td><td>✉️ ${u.email}</td></tr>`; }); }
+            });
 
-            // 2. ONAY BEKLEYEN İLANLARI ÇEK
             db.collection('listings').where('status', '==', 'pending').get().then(snap => {
                 const tbody = document.getElementById('admin-listings-body');
                 if(!tbody) return;
                 tbody.innerHTML = '';
-                if(snap.empty) { 
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Onay bekleyen ilan yok.</td></tr>'; 
-                } else {
+                if(snap.empty) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Onay bekleyen ilan yok.</td></tr>'; } 
+                else {
                     snap.forEach(d => {
-                        const c = d.data();
-                        const img = c.image || 'https://via.placeholder.com/100';
-                        tbody.innerHTML += `
-                            <tr>
-                                <td><img src="${img}" style="width:80px; height:50px; object-fit:cover; border-radius:4px;"></td>
-                                <td><strong>${c.title}</strong><br><span style="font-size:12px;color:#555;">${c.ownerEmail}</span></td>
-                                <td>${c.brand} / ${c.model}</td>
-                                <td>${c.phone}</td>
-                                <td>
-                                    <button class="btn-approve" onclick="approveListing('${d.id}')">Onayla</button>
-                                    <button class="btn-reject" style="margin-top:5px;" onclick="rejectListing('${d.id}')">Reddet</button>
-                                </td>
-                            </tr>`;
+                        const c = d.data(); const img = c.image || 'https://via.placeholder.com/100';
+                        tbody.innerHTML += `<tr><td><img src="${img}" style="width:80px; height:50px; object-fit:cover; border-radius:4px;"></td><td><strong>${c.title}</strong><br><span style="font-size:12px;color:#555;">${c.ownerEmail}</span></td><td>${c.brand} / ${c.model}</td><td>${c.phone}</td><td><button class="btn-approve" onclick="approveListing('${d.id}')">Onayla</button><button class="btn-reject" style="margin-top:5px;" onclick="rejectListing('${d.id}')">Reddet</button></td></tr>`;
                     });
                 }
             });
 
-            // 3. YAYINDAKİ (ONAYLANMIŞ) İLANLARI ÇEK
             db.collection('listings').where('status', '==', 'approved').get().then(snap => {
                 const tbody = document.getElementById('admin-approved-body');
                 if(!tbody) return;
                 tbody.innerHTML = '';
-                if(snap.empty) { 
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Yayında ilan yok.</td></tr>'; 
-                } else {
+                if(snap.empty) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Yayında ilan yok.</td></tr>'; } 
+                else {
                     snap.forEach(d => {
-                        const c = d.data();
-                        const img = c.image || 'https://via.placeholder.com/100';
-                        tbody.innerHTML += `
-                            <tr>
-                                <td><img src="${img}" style="width:80px; height:50px; object-fit:cover; border-radius:4px;"></td>
-                                <td><strong><a href="detay.html?id=${d.id}" target="_blank">${c.title}</a></strong></td>
-                                <td><span style="font-size:13px;color:#555;">${c.ownerEmail}</span></td>
-                                <td><strong style="color:#e53935;">${c.price}</strong></td>
-                                <td><button class="btn-reject" onclick="deleteApprovedListing('${d.id}')">Yayından Kaldır</button></td>
-                            </tr>`;
+                        const c = d.data(); const img = c.image || 'https://via.placeholder.com/100';
+                        tbody.innerHTML += `<tr><td><img src="${img}" style="width:80px; height:50px; object-fit:cover; border-radius:4px;"></td><td><strong><a href="detay.html?id=${d.id}" target="_blank">${c.title}</a></strong></td><td><span style="font-size:13px;color:#555;">${c.ownerEmail}</span></td><td><strong style="color:#e53935;">${c.price}</strong></td><td><button class="btn-reject" onclick="deleteApprovedListing('${d.id}')">Yayından Kaldır</button></td></tr>`;
                     });
                 }
             });
         });
 
-        // ADMİN İŞLEMLERİ (GLOBAL)
         window.approveListing = async id => { await db.collection('listings').doc(id).update({status:'approved'}); window.location.reload(); };
-        window.rejectListing = async id => {
-            const reason = prompt("Reddetme sebebini yazın:");
-            if(reason) { await db.collection('listings').doc(id).update({ status: 'rejected', rejectReason: reason }); window.location.reload(); }
-        };
-        window.deleteApprovedListing = async id => {
-            if(confirm("Bu ilan yayından kaldırılacak! Onaylıyor musun?")) { await db.collection('listings').doc(id).delete(); window.location.reload(); }
-        };
+        window.rejectListing = async id => { const reason = prompt("Reddetme sebebini yazın:"); if(reason) { await db.collection('listings').doc(id).update({ status: 'rejected', rejectReason: reason }); window.location.reload(); } };
+        window.deleteApprovedListing = async id => { if(confirm("Bu ilan yayından kaldırılacak! Onaylıyor musun?")) { await db.collection('listings').doc(id).delete(); window.location.reload(); } };
 
-        // BİLDİRİM GÖNDERME
         document.getElementById('send-notif-btn')?.addEventListener('click', async () => {
-            const type = document.getElementById('admin-notif-type').value;
-            const targetEmail = document.getElementById('admin-notif-email').value;
-            const msg = document.getElementById('admin-notif-msg').value;
-
-            if(!msg) return alert("Mesaj boş olamaz!");
-            if(type === 'specific' && !targetEmail) return alert("E-posta girin!");
-
-            try {
-                await db.collection('notifications').add({ to: type === 'specific' ? targetEmail : 'all', message: msg, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-                alert("Bildirim gönderildi!"); document.getElementById('admin-notif-msg').value = '';
-            } catch(e) { alert("Hata: " + e.message); }
+            const type = document.getElementById('admin-notif-type').value; const targetEmail = document.getElementById('admin-notif-email').value; const msg = document.getElementById('admin-notif-msg').value;
+            if(!msg) return alert("Mesaj boş olamaz!"); if(type === 'specific' && !targetEmail) return alert("E-posta girin!");
+            try { await db.collection('notifications').add({ to: type === 'specific' ? targetEmail : 'all', message: msg, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); alert("Bildirim gönderildi!"); document.getElementById('admin-notif-msg').value = ''; } catch(e) { alert("Hata: " + e.message); }
         });
     }
 
-    // BİLDİRİMLER LİSTESİ (KULLANICI TARAFI)
+    // BİLDİRİMLER
     const notifList = document.getElementById('notifications-list');
     if(notifList) {
         auth.onAuthStateChanged(user => {
             if(!user) return window.location.href = 'index.html';
             notifList.innerHTML = ''; let count = 0;
-
             db.collection('listings').where('ownerEmail', '==', user.email).where('status', '==', 'rejected').get().then(snap => {
                 snap.forEach(d => {
                     count++; const c = d.data(); const coverImg = (c.images && c.images.length > 0) ? c.images[0] : (c.image || 'https://via.placeholder.com/400');
-                    notifList.innerHTML += `
-                        <div style="display:flex; align-items:center; background:#ffebee; border:1px solid #ffcdd2; padding:15px; border-radius:8px; margin-bottom:15px;">
-                            <img src="${coverImg}" style="width:80px; height:60px; object-fit:cover; border-radius:4px; margin-right:15px;">
-                            <div style="flex:1;"><strong style="color:#d32f2f; font-size:16px;">❌ İlanınız Reddedildi: ${c.title}</strong><p style="margin-top:5px; color:#555; font-size:14px;"><b>Sebep:</b> ${c.rejectReason}</p></div>
-                            <button onclick="clearListingNotif('${d.id}')" class="btn-primary" style="padding:8px 15px; font-size:13px;">Kaldır</button>
-                        </div>`;
+                    notifList.innerHTML += `<div style="display:flex; align-items:center; background:#ffebee; border:1px solid #ffcdd2; padding:15px; border-radius:8px; margin-bottom:15px;"><img src="${coverImg}" style="width:80px; height:60px; object-fit:cover; border-radius:4px; margin-right:15px;"><div style="flex:1;"><strong style="color:#d32f2f; font-size:16px;">❌ İlanınız Reddedildi: ${c.title}</strong><p style="margin-top:5px; color:#555; font-size:14px;"><b>Sebep:</b> ${c.rejectReason}</p></div><button onclick="clearListingNotif('${d.id}')" class="btn-primary" style="padding:8px 15px; font-size:13px;">Kaldır</button></div>`;
                 });
             });
-
             db.collection('notifications').where('to', 'in', ['all', user.email]).get().then(snap => {
                 const readNotifs = JSON.parse(localStorage.getItem('readNotifs') || '[]');
                 snap.forEach(d => {
-                    if(readNotifs.includes(d.id)) return; 
-                    count++; const n = d.data();
-                    notifList.innerHTML += `
-                        <div style="display:flex; align-items:center; background:#e3f2fd; border:1px solid #bbdefb; padding:15px; border-radius:8px; margin-bottom:15px;">
-                            <div style="font-size:30px; margin-right:15px;">📢</div>
-                            <div style="flex:1;"><strong style="color:#1565c0; font-size:16px;">Admin Mesajı</strong><p style="margin-top:5px; color:#555; font-size:14px;">${n.message}</p></div>
-                            <button onclick="clearAdminNotif('${d.id}')" class="btn-primary" style="background:#1976d2; padding:8px 15px; font-size:13px;">Okudum</button>
-                        </div>`;
+                    if(readNotifs.includes(d.id)) return; count++; const n = d.data();
+                    notifList.innerHTML += `<div style="display:flex; align-items:center; background:#e3f2fd; border:1px solid #bbdefb; padding:15px; border-radius:8px; margin-bottom:15px;"><div style="font-size:30px; margin-right:15px;">📢</div><div style="flex:1;"><strong style="color:#1565c0; font-size:16px;">Admin Mesajı</strong><p style="margin-top:5px; color:#555; font-size:14px;">${n.message}</p></div><button onclick="clearAdminNotif('${d.id}')" class="btn-primary" style="background:#1976d2; padding:8px 15px; font-size:13px;">Okudum</button></div>`;
                 });
                 if(count === 0) notifList.innerHTML = '<p style="text-align: center; color: #888;">Şu an için yeni bir bildiriminiz yok.</p>';
             });
         });
-
         window.clearListingNotif = async (id) => { await db.collection('listings').doc(id).delete(); window.location.reload(); };
-        window.clearAdminNotif = (id) => {
-            const readNotifs = JSON.parse(localStorage.getItem('readNotifs') || '[]'); readNotifs.push(id); 
-            localStorage.setItem('readNotifs', JSON.stringify(readNotifs)); window.location.reload();
-        };
+        window.clearAdminNotif = (id) => { const readNotifs = JSON.parse(localStorage.getItem('readNotifs') || '[]'); readNotifs.push(id); localStorage.setItem('readNotifs', JSON.stringify(readNotifs)); window.location.reload(); };
     }
 });
