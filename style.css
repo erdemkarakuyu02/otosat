@@ -25,22 +25,56 @@ select:focus, input:focus, textarea:focus { outline: none; border-color: #e53935
 /* İçerik Düzeni */
 .content-wrapper { display: flex; flex-direction: column; gap: 25px; max-width: 1250px; margin: 30px auto; width: 95%; }
 
-/* YENİ: Hero (Vitrin) Arama Alanı - ORTALANDI VE KÜÇÜLTÜLDÜ */
-.hero-section { background: linear-gradient(135deg, #ffffff 0%, #f4f6f8 100%); padding: 50px 20px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #eaeaea; text-align: center; }
+/* ========================================= */
+/* YENİ: VİTRİN ALANI (TAM MERKEZ VE DAR)  */
+/* ========================================= */
+.hero-section { 
+    background: linear-gradient(135deg, #ffffff 0%, #f4f6f8 100%); 
+    padding: 50px 20px; 
+    border-radius: 20px; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04); 
+    border: 1px solid #eaeaea; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; /* Her şeyi tam ortaya dizer */
+    text-align: center;
+}
 .hero-title { color: #1a1c20; margin-bottom: 25px; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
 
-/* YENİ: Sekmeler (Tabs) Profesyonel Görünüm - ORTALANDI */
-.tab-container { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; }
+/* SEKMELER */
+.tab-container { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; width: 100%; }
 .type-tab { padding: 12px 35px; border: 2px solid #dfe3e8; background: #fff; color: #454f5b; border-radius: 30px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
 .type-tab:hover { background: #f4f6f8; border-color: #c4cdd5; }
 .type-tab.active { background: #e53935; color: #fff; border-color: #e53935; box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3); }
 
-/* YENİ: Premium Kapsül Arama Kutusu */
-.search-box { display: flex; gap: 10px; max-width: 650px; margin: 0 auto; background: #fff; padding: 8px; border-radius: 50px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid #eee; }
-.search-box input { flex: 1; padding: 15px 25px; font-size: 16px; border-radius: 50px; border: none; background: transparent; outline: none; }
-.search-box input:focus { box-shadow: none; }
-.search-box button { padding: 15px 40px; font-size: 16px; border-radius: 40px; background: #1a1c20; color: #fff; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
-.search-box button:hover { background: #e53935; transform: scale(1.02); }
+/* ARAMA KUTUSU (DARALTILDI VE KIPKIRMIZI BUTON) */
+.search-box { 
+    display: flex; 
+    gap: 10px; 
+    width: 100%; 
+    max-width: 550px; /* Kutu artık boydan boya uzamayacak, dar duracak */
+    margin: 0 auto; /* Kutuyu ortalar */
+    background: #fff; 
+    padding: 8px; 
+    border-radius: 50px; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08); 
+    border: 1px solid #ddd; 
+}
+.search-box input { flex: 1; padding: 15px 25px; font-size: 15px; border-radius: 50px; border: none; background: transparent; outline: none; color:#333; }
+.search-box button { 
+    padding: 15px 35px; 
+    font-size: 16px; 
+    border-radius: 40px; 
+    background: #e53935; /* Kırmızı renk verildi */
+    color: #fff; 
+    border: none; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    box-shadow: 0 4px 10px rgba(229, 57, 53, 0.2);
+}
+.search-box button:hover { background: #c62828; transform: scale(1.02); }
+/* ========================================= */
 
 /* Filtre Kenar Çubuğu */
 .sidebar-filter { flex: 1; min-width: 260px; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); height: fit-content; border: 1px solid #eaeaea; }
