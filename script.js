@@ -13,7 +13,7 @@ const ADMIN_EMAIL = 'denizqw02@gmail.com';
 
 window.allListings = [];
 window.userFavorites = [];
-window.favoritesLoaded = false; // Favorilerin donmaması için eklenen Senkron Kilidi
+window.favoritesLoaded = false;
 
 async function startEngine() {
     for (let src of firebaseScripts) {
@@ -153,7 +153,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         const isFavPage = document.getElementById('favorites-list') !== null;
         const isMyListings = document.getElementById('my-listings') !== null;
 
-        // SENKRONİZASYON KİLİDİ: Favoriler sayfasındaysak favoriler yüklenene kadar beklet.
         if (isFavPage && !window.favoritesLoaded) {
             listCont.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; color:#888;">Favorileriniz yükleniyor...</p>';
             return;
@@ -219,7 +218,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const isAdmin = user.email === ADMIN_EMAIL;
                 db.collection('favorites').where('email', '==', user.email).get().then(snap => { 
                     window.userFavorites = snap.docs.map(d => d.data().listingId); 
-                    window.favoritesLoaded = true; // Favoriler yüklendi kilidi açıldı
+                    window.favoritesLoaded = true;
                     if(document.getElementById('car-listings') || document.getElementById('favorites-list')) window.applyFilters(); 
                 });
                 
@@ -252,7 +251,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('.search-box button')?.addEventListener('click', window.applyFilters);
     }
 
-    // YENİ GÜVENLİ FAVORİ EKLE/ÇIKAR 
     window.toggleFav = async (e, id) => {
         e.preventDefault(); const user = auth.currentUser; if(!user) return alert("Giriş yapmalısınız!");
         const favRef = db.collection('favorites').doc(`${user.email}_${id}`); const doc = await favRef.get();
@@ -268,7 +266,37 @@ document.addEventListener('DOMContentLoaded', async function() {
         if(document.getElementById('favorites-list')) window.applyFilters(); 
     };
 
-    // İLAN EKLEME
+    // ==========================================
+    // PROFİL SAYFASI MOTORU (HİÇBİR EKSİK YOK)
+    // ==========================================
+    if(document.getElementById('prof-email')) {
+        auth.onAuthStateChanged(user => {
+            if(!user) return window.location.href = 'index.html';
+            document.getElementById('prof-email').value = user.email;
+            db.collection('users').doc(user.email).get().then(d => {
+                if(d.exists) {
+                    document.getElementById('prof-name').value = d.data().ad || "Girilmemiş";
+                    document.getElementById('prof-surname').value = d.data().soyad || "Girilmemiş";
+                }
+            });
+        });
+
+        document.getElementById('prof-update-btn')?.addEventListener('click', async () => {
+            const newPass = document.getElementById('prof-new-pass').value;
+            if(newPass.length < 6) return alert("Şifre en az 6 karakter olmalıdır!");
+            try { await auth.currentUser.updatePassword(newPass); alert("Şifreniz güncellendi!"); document.getElementById('prof-new-pass').value = ''; } 
+            catch(e) { alert("Güvenlik gereği çıkış yapıp tekrar giriş yapmalısınız."); }
+        });
+
+        document.getElementById('prof-delete-btn')?.addEventListener('click', async () => {
+            const user = auth.currentUser; if(!user) return;
+            if(confirm("Hesabınızı kalıcı olarak silmek istediğinize emin misiniz?")) {
+                try { await db.collection('users').doc(user.email).delete(); await user.delete(); alert("Hesabınız silindi."); window.location.href = 'index.html'; } 
+                catch(e) { alert("Lütfen çıkış yapıp tekrar girdikten sonra deneyin."); }
+            }
+        });
+    }
+
     document.getElementById('add-listing-form')?.addEventListener('submit', async function(e) {
         e.preventDefault(); const user = auth.currentUser; if(!user) return alert("Giriş yapmalısınız!");
         const files = document.getElementById('form-image').files; if(files.length === 0) return alert("Fotoğraf seçin!");
@@ -303,7 +331,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         } catch (err) { alert("Hata: " + err.message); btn.textContent = "İlanı Onaya Gönder"; btn.disabled = false; }
     });
 
-    // İLAN DÜZENLEME
     const editForm = document.getElementById('edit-listing-form');
     if (editForm) {
         const urlId = new URLSearchParams(window.location.search).get('id');
@@ -365,11 +392,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // KAYIT, GİRİŞ VE PROFİL 
     document.getElementById('register-form')?.addEventListener('submit', async e => { e.preventDefault(); const em = e.target.querySelector('input[type="email"]').value; const p1 = document.getElementById('reg-pass').value; if(p1 !== document.getElementById('reg-pass-confirm').value) return alert("Şifreler uyuşmuyor!"); try { const userCred = await auth.createUserWithEmailAndPassword(em, p1); await db.collection('users').doc(em).set({ ad: document.getElementById('reg-name').value, soyad: document.getElementById('reg-surname').value, email: em }); await userCred.user.sendEmailVerification(); await auth.signOut(); alert("Kayıt başarılı! Lütfen e-postanızı onaylayın."); window.location.href = 'giris.html'; } catch(err) { alert(err.message); } });
     document.getElementById('login-form')?.addEventListener('submit', async e => { e.preventDefault(); const em = e.target.querySelector('input[type="email"]').value; const p = e.target.querySelector('input[type="password"]').value; try { const userCred = await auth.signInWithEmailAndPassword(em, p); if(!userCred.user.emailVerified && em !== ADMIN_EMAIL) { await auth.signOut(); return alert("E-postanızı henüz onaylamadınız."); } window.location.href = 'index.html'; } catch(err) { alert("Hatalı Giriş."); } });
     
-    // ADMIN BÖLÜMÜ VE KULLANICI SİLME SİSTEMİ
     if (document.getElementById('admin-listings-body')) {
         auth.onAuthStateChanged(user => {
             if (!user || user.email !== ADMIN_EMAIL) return window.location.href = 'index.html';
@@ -393,7 +418,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.rejectListing = async id => { const r = prompt("Sebep?"); if(r) { await db.collection('listings').doc(id).update({ status: 'rejected', rejectReason: r }); window.location.reload(); } };
         window.deleteApprovedListing = async id => { if(confirm("Kaldırılsın mı?")) { await db.collection('listings').doc(id).delete(); window.location.reload(); } };
         
-        // YENİ: KULLANICIYI VE TÜM İLANLARINI SİLME MOTORU
         window.deleteUser = async (email) => {
             if(confirm(email + " kullanıcısını ve bu kişiye ait tüm ilanları tamamen silmek istediğinize emin misiniz?")) {
                 try {
