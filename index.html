@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- SABİTLENMİŞ NAVBAR -->
     <header class="navbar">
         <a href="index.html" class="logo">Otosat.org</a>
         <nav id="main-nav">
@@ -18,41 +17,53 @@
     </header>
 
     <div class="content-wrapper">
-        <!-- VİTRİN / ARAMA VE SEKMELER -->
-        <div style="background:#fff; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;">
+        
+        <section class="hero-section">
+            <h1 class="hero-title">Hayalindeki Aracı Bul</h1>
             
-            <!-- ESKİ GÖRÜNÜM: KİRALIK / SATILIK SEKMELERİ -->
-            <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <button class="type-tab active" data-type="all" style="padding:8px 20px; border:none; background:#e53935; color:#fff; border-radius:4px; font-weight:bold; cursor:pointer;">Tümü</button>
-                <button class="type-tab" data-type="Satılık" style="padding:8px 20px; border:1px solid #ccc; background:#fff; color:#333; border-radius:4px; font-weight:bold; cursor:pointer;">Satılık</button>
-                <button class="type-tab" data-type="Kiralık" style="padding:8px 20px; border:1px solid #ccc; background:#fff; color:#333; border-radius:4px; font-weight:bold; cursor:pointer;">Kiralık</button>
+            <div class="tab-container">
+                <button class="type-tab active" data-type="all">Tümü</button>
+                <button class="type-tab" data-type="Satılık">Satılık</button>
+                <button class="type-tab" data-type="Kiralık">Kiralık</button>
             </div>
 
-            <h1 style="color:#333; margin-bottom:15px;">Hayalindeki Aracı Bul</h1>
-            <div class="search-box" style="display:flex; gap:10px;">
-                <input type="text" placeholder="Kelime, marka veya model yazın..." style="flex:1; padding:12px; border:1px solid #ccc; border-radius:5px;">
-                <button class="btn-primary btn-search">Ara</button>
+            <div class="search-box">
+                <input type="text" placeholder="Kelime, marka veya araç modeli yazın...">
+                <button class="btn-primary btn-search">Hemen Ara</button>
             </div>
-        </div>
+        </section>
 
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <!-- SOL FİLTRE -->
-            <aside style="flex: 1; min-width: 250px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); height: fit-content;">
-                <h3 style="border-bottom:2px solid #e53935; padding-bottom:10px; margin-bottom:15px;">Filtrele</h3>
+        <div style="display: flex; gap: 25px; flex-wrap: wrap;">
+            
+            <aside class="sidebar-filter">
+                <h3 class="sidebar-title">Detaylı Filtre</h3>
                 
-                <div class="filter-group" style="margin-bottom: 15px;"><label>Durum</label><select id="filter-type"><option value="all">Tümü</option><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select></div>
-                <div class="filter-group" style="margin-bottom: 15px;"><label>Kategori</label><select id="filter-category"><option value="all">Tüm Kategoriler</option></select></div>
-                <div class="filter-group" style="margin-bottom: 15px;"><label>Marka</label><select id="filter-brand"><option value="all">Tüm Markalar</option></select></div>
-                <button id="filter-button" class="btn-primary" style="width: 100%; margin-top: 10px;">Sonuçları Göster</button>
+                <select id="filter-type" style="display:none;"><option value="all">Tümü</option><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select>
+                
+                <div class="filter-group" style="margin-bottom: 18px;">
+                    <label>Kategori</label>
+                    <select id="filter-category"><option value="all">Tüm Kategoriler</option></select>
+                </div>
+                
+                <div class="filter-group" style="margin-bottom: 18px;">
+                    <label>Marka</label>
+                    <select id="filter-brand"><option value="all">Tüm Markalar</option></select>
+                </div>
+                
+                <button id="filter-button" class="btn-primary" style="width: 100%; margin-top: 10px; background:#454f5b;">Sonuçları Göster</button>
             </aside>
 
-            <!-- İLANLAR -->
             <main style="flex: 3; min-width: 300px;">
-                <h2 style="margin-bottom: 15px; color:#333;">Güncel İlanlar</h2>
-                <div class="listing-grid" id="car-listings"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="color:#1a1c20; font-size:22px; font-weight:700;">Güncel İlanlar Vitrini</h2>
+                </div>
+                
+                <div class="listing-grid" id="car-listings">
+                    </div>
             </main>
         </div>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
