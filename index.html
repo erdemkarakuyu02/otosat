@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- SABİTLENMİŞ NAVBAR (Giriş yapıldığında JS burayı güncelleyecek) -->
+    <!-- SABİTLENMİŞ NAVBAR -->
     <header class="navbar">
         <a href="index.html" class="logo">Otosat.org</a>
         <nav id="main-nav">
@@ -18,7 +18,16 @@
     </header>
 
     <div class="content-wrapper">
+        <!-- VİTRİN / ARAMA VE SEKMELER -->
         <div style="background:#fff; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;">
+            
+            <!-- ESKİ GÖRÜNÜM: KİRALIK / SATILIK SEKMELERİ -->
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <button class="type-tab active" data-type="all" style="padding:8px 20px; border:none; background:#e53935; color:#fff; border-radius:4px; font-weight:bold; cursor:pointer;">Tümü</button>
+                <button class="type-tab" data-type="Satılık" style="padding:8px 20px; border:1px solid #ccc; background:#fff; color:#333; border-radius:4px; font-weight:bold; cursor:pointer;">Satılık</button>
+                <button class="type-tab" data-type="Kiralık" style="padding:8px 20px; border:1px solid #ccc; background:#fff; color:#333; border-radius:4px; font-weight:bold; cursor:pointer;">Kiralık</button>
+            </div>
+
             <h1 style="color:#333; margin-bottom:15px;">Hayalindeki Aracı Bul</h1>
             <div class="search-box" style="display:flex; gap:10px;">
                 <input type="text" placeholder="Kelime, marka veya model yazın..." style="flex:1; padding:12px; border:1px solid #ccc; border-radius:5px;">
@@ -27,6 +36,7 @@
         </div>
 
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <!-- SOL FİLTRE -->
             <aside style="flex: 1; min-width: 250px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); height: fit-content;">
                 <h3 style="border-bottom:2px solid #e53935; padding-bottom:10px; margin-bottom:15px;">Filtrele</h3>
                 
@@ -36,6 +46,7 @@
                 <button id="filter-button" class="btn-primary" style="width: 100%; margin-top: 10px;">Sonuçları Göster</button>
             </aside>
 
+            <!-- İLANLAR -->
             <main style="flex: 3; min-width: 300px;">
                 <h2 style="margin-bottom: 15px; color:#333;">Güncel İlanlar</h2>
                 <div class="listing-grid" id="car-listings"></div>
