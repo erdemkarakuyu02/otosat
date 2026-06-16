@@ -140,6 +140,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     let auth = engine.auth; let db = engine.db;
     const navElement = document.getElementById('main-nav');
 
+    // ==========================================
+    // TAM KAPSAMLI FİLTRELEME VE SIRALAMA MOTORU
+    // ==========================================
     window.applyFilters = function() {
         const listCont = document.getElementById('car-listings') || document.getElementById('my-listings') || document.getElementById('favorites-list');
         if(!listCont) return;
@@ -152,7 +155,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             return;
         }
 
-        const filterType = document.getElementById('filter-type'); const filterCat = document.getElementById('filter-category'); const filterBrand = document.getElementById('filter-brand'); const filterModel = document.getElementById('filter-model'); const filterCity = document.getElementById('filter-city'); const filterDist = document.getElementById('filter-district'); const minYear = document.getElementById('filter-min-year'); const maxYear = document.getElementById('filter-max-year'); const searchInput = document.querySelector('.search-box input');
+        const filterType = document.getElementById('filter-type'); 
+        const filterCat = document.getElementById('filter-category'); 
+        const filterBrand = document.getElementById('filter-brand'); 
+        const filterModel = document.getElementById('filter-model'); 
+        const filterCity = document.getElementById('filter-city'); 
+        const filterDist = document.getElementById('filter-district'); 
+        const minYear = document.getElementById('filter-min-year'); 
+        const maxYear = document.getElementById('filter-max-year'); 
+        const minPrice = document.getElementById('filter-min-price'); 
+        const maxPrice = document.getElementById('filter-max-price'); 
+        const filterSort = document.getElementById('filter-sort');
+        const searchInput = document.querySelector('.search-box input');
 
         const f = {
             type: filterType ? filterType.value : 'all',
@@ -163,6 +177,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             district: filterDist ? filterDist.value : 'all',
             minY: minYear && minYear.value ? parseInt(minYear.value) : 0,
             maxY: maxYear && maxYear.value ? parseInt(maxYear.value) : 9999,
+            minP: minPrice && minPrice.value ? parseInt(minPrice.value) : 0,
+            maxP: maxPrice && maxPrice.value ? parseInt(maxPrice.value) : 9999999999,
+            sort: filterSort ? filterSort.value : 'date-desc',
             search: searchInput ? searchInput.value.toLowerCase().trim() : ""
         };
 
@@ -175,9 +192,35 @@ document.addEventListener('DOMContentLoaded', async function() {
             if(f.model !== 'all' && c.model !== f.model) return false;
             if(f.city !== 'all' && c.city !== f.city) return false;
             if(f.district !== 'all' && c.district !== f.district) return false;
+            
             if(c.year && (parseInt(c.year) < f.minY || parseInt(c.year) > f.maxY)) return false;
+            
+            const priceNum = c.price ? parseInt(c.price.replace(/[^0-9]/g, '')) : 0;
+            if(priceNum < f.minP || priceNum > f.maxP) return false;
+
             if(f.search && !`${c.title} ${c.brand} ${c.model} ${c.city} ${c.district}`.toLowerCase().includes(f.search)) return false;
             return true;
+        });
+
+        // SIRALAMA İŞLEMİ
+        filtered.sort((a, b) => {
+            if (f.sort === 'price-asc') {
+                const pA = a.price ? parseInt(a.price.replace(/[^0-9]/g, '')) : 0;
+                const pB = b.price ? parseInt(b.price.replace(/[^0-9]/g, '')) : 0;
+                return pA - pB;
+            } else if (f.sort === 'price-desc') {
+                const pA = a.price ? parseInt(a.price.replace(/[^0-9]/g, '')) : 0;
+                const pB = b.price ? parseInt(b.price.replace(/[^0-9]/g, '')) : 0;
+                return pB - pA;
+            } else if (f.sort === 'date-asc') {
+                const tA = a.createdAt ? a.createdAt.seconds : 0;
+                const tB = b.createdAt ? b.createdAt.seconds : 0;
+                return tA - tB;
+            } else {
+                const tA = a.createdAt ? a.createdAt.seconds : 0;
+                const tB = b.createdAt ? b.createdAt.seconds : 0;
+                return tB - tA;
+            }
         });
 
         if(!filtered.length) { listCont.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; color:#888;">İlan bulunamadı.</p>'; return; }
@@ -243,6 +286,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         document.getElementById('filter-button')?.addEventListener('click', window.applyFilters);
         document.querySelector('.search-box button')?.addEventListener('click', window.applyFilters);
+        document.getElementById('filter-sort')?.addEventListener('change', window.applyFilters);
     }
 
     window.toggleFav = async (e, id) => {
@@ -260,9 +304,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         if(document.getElementById('favorites-list')) window.applyFilters(); 
     };
 
-    // ==========================================
-    // PROFİL SAYFASI MOTORU
-    // ==========================================
     if(document.getElementById('prof-email')) {
         auth.onAuthStateChanged(user => {
             if(!user) return window.location.href = 'index.html';
@@ -278,21 +319,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('prof-update-btn')?.addEventListener('click', async () => {
             const newPass = document.getElementById('prof-new-pass').value;
             if(newPass.length < 6) return alert("Şifre en az 6 karakter olmalıdır!");
-            try { 
-                await auth.currentUser.updatePassword(newPass); 
-                alert("Şifreniz güncellendi!"); 
-                document.getElementById('prof-new-pass').value = ''; 
-            } catch(e) { alert("Güvenlik gereği çıkış yapıp tekrar giriş yapmalısınız."); }
+            try { await auth.currentUser.updatePassword(newPass); alert("Şifreniz güncellendi!"); document.getElementById('prof-new-pass').value = ''; } 
+            catch(e) { alert("Güvenlik gereği çıkış yapıp tekrar giriş yapmalısınız."); }
         });
 
         document.getElementById('prof-delete-btn')?.addEventListener('click', async () => {
             const user = auth.currentUser; if(!user) return;
             if(confirm("Hesabınızı kalıcı olarak silmek istediğinize emin misiniz?")) {
-                try { 
-                    await user.delete(); 
-                    await db.collection('users').doc(user.email).delete(); 
-                    alert("Hesabınız tamamen silindi."); window.location.href = 'index.html'; 
-                } catch(e) { 
+                try { await user.delete(); await db.collection('users').doc(user.email).delete(); alert("Hesabınız tamamen silindi."); window.location.href = 'index.html'; } 
+                catch(e) { 
                     if(e.code === 'auth/requires-recent-login') {
                         alert("GÜVENLİK UYARISI: Hesabınızı silebilmemiz için yakın zamanda giriş yapmış olmanız gerekiyor. Lütfen ÇIKIŞ YAPIN, tekrar GİRİŞ YAPIN ve silmeyi tekrar deneyin.");
                     } else { alert("Hata: " + e.message); }
@@ -301,7 +336,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // İLAN EKLEME
     document.getElementById('add-listing-form')?.addEventListener('submit', async function(e) {
         e.preventDefault(); const user = auth.currentUser; if(!user) return alert("Giriş yapmalısınız!");
         const files = document.getElementById('form-image').files; if(files.length === 0) return alert("Fotoğraf seçin!");
@@ -397,7 +431,44 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // KAYIT VE GİRİŞ
     document.getElementById('register-form')?.addEventListener('submit', async e => { e.preventDefault(); const em = e.target.querySelector('input[type="email"]').value; const p1 = document.getElementById('reg-pass').value; if(p1 !== document.getElementById('reg-pass-confirm').value) return alert("Şifreler uyuşmuyor!"); try { const userCred = await auth.createUserWithEmailAndPassword(em, p1); await db.collection('users').doc(em).set({ ad: document.getElementById('reg-name').value, soyad: document.getElementById('reg-surname').value, email: em }); await userCred.user.sendEmailVerification(); await auth.signOut(); alert("Kayıt başarılı! Lütfen e-postanızı onaylayın."); window.location.href = 'giris.html'; } catch(err) { alert(err.message); } });
     document.getElementById('login-form')?.addEventListener('submit', async e => { e.preventDefault(); const em = e.target.querySelector('input[type="email"]').value; const p = e.target.querySelector('input[type="password"]').value; try { const userCred = await auth.signInWithEmailAndPassword(em, p); if(!userCred.user.emailVerified && em !== ADMIN_EMAIL) { await auth.signOut(); return alert("E-postanızı henüz onaylamadınız."); } window.location.href = 'index.html'; } catch(err) { alert("Hatalı Giriş."); } });
+    
+    if (document.getElementById('admin-listings-body')) {
+        auth.onAuthStateChanged(user => {
+            if (!user || user.email !== ADMIN_EMAIL) return window.location.href = 'index.html';
+            
+            db.collection('users').get().then(snap => { 
+                const tbody = document.getElementById('admin-users-body'); 
+                if(tbody) { 
+                    tbody.innerHTML = ''; 
+                    snap.empty ? tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Yok</td></tr>' : snap.forEach(doc => { 
+                        const u = doc.data(); 
+                        tbody.innerHTML += `<tr><td>${u.ad||'-'} ${u.soyad||'-'}</td><td>${u.email}</td><td><button class="btn-reject" onclick="deleteUser('${u.email}')">Kullanıcıyı Sil</button></td></tr>`; 
+                    }); 
+                } 
+            });
+
+            db.collection('listings').where('status', '==', 'pending').get().then(snap => { const tbody = document.getElementById('admin-listings-body'); if(tbody) { tbody.innerHTML = ''; snap.empty ? tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Yok</td></tr>' : snap.forEach(d => { const c = d.data(); tbody.innerHTML += `<tr><td><img src="${c.image}" style="width:50px;"></td><td>${c.title}</td><td>${c.brand}</td><td><button onclick="approveListing('${d.id}')">Onayla</button> <button onclick="rejectListing('${d.id}')">Reddet</button></td></tr>`; }); } });
+            db.collection('listings').where('status', '==', 'approved').get().then(snap => { const tbody = document.getElementById('admin-approved-body'); if(tbody) { tbody.innerHTML = ''; snap.empty ? tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Yok</td></tr>' : snap.forEach(d => { const c = d.data(); tbody.innerHTML += `<tr><td><img src="${c.image}" style="width:50px;"></td><td>${c.title}</td><td>${c.price}</td><td><button onclick="deleteApprovedListing('${d.id}')">Kaldır</button></td></tr>`; }); } });
+        });
+        
+        window.approveListing = async id => { await db.collection('listings').doc(id).update({status:'approved'}); window.location.reload(); };
+        window.rejectListing = async id => { const r = prompt("Sebep?"); if(r) { await db.collection('listings').doc(id).update({ status: 'rejected', rejectReason: r }); window.location.reload(); } };
+        window.deleteApprovedListing = async id => { if(confirm("Kaldırılsın mı?")) { await db.collection('listings').doc(id).delete(); window.location.reload(); } };
+        
+        window.deleteUser = async (email) => {
+            if(confirm(email + " kullanıcısını ve bu kişiye ait tüm ilanları tamamen silmek istediğinize emin misiniz?")) {
+                try {
+                    await db.collection('users').doc(email).delete();
+                    const listingsSnap = await db.collection('listings').where('ownerEmail', '==', email).get();
+                    const batch = db.batch();
+                    listingsSnap.forEach(doc => batch.delete(doc.ref));
+                    await batch.commit();
+                    alert("Kullanıcı ve ilanları başarıyla silindi!");
+                    window.location.reload();
+                } catch(e) { alert("Hata: " + e.message); }
+            }
+        };
+    }
 });
