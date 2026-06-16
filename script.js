@@ -8,7 +8,7 @@ const firebaseScripts = [
 ];
 
 // !!! KENDİ IMGBB ANAHTARINI BURAYA YAZ !!!
-const IMGBB_API_KEY = "SENİN_ANAHTARIN_BURAYA_GELECEK"; 
+const IMGBB_API_KEY = "658362c964a6b3407806eb59735c285b"; 
 const ADMIN_EMAIL = 'denizqw02@gmail.com'; 
 
 window.allListings = [];
