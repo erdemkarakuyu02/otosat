@@ -1,14 +1,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-body { background-color: #f0f2f5; color: #2c3e50; line-height: 1.6; }
+body { background-color: #f8f9fa; color: #2c3e50; line-height: 1.6; }
 
-/* Navbar - Daha Şık ve Derin */
+/* Navbar */
 .navbar { background: #181a1f; color: #fff; padding: 18px 30px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .navbar .logo { font-size: 26px; font-weight: 800; color: #e53935; text-decoration: none; letter-spacing: -0.5px; }
 .navbar nav { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .nav-link { color: #e4e6eb; text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.3s; }
 .nav-link:hover { color: #e53935; }
 
-/* Butonlar - Modern ve Tok */
+/* Butonlar */
 .btn-primary, .btn-secondary, .btn-approve, .btn-reject { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.3s ease; text-decoration: none; display: inline-block; text-align: center; }
 .btn-primary { background: #e53935; color: #fff; box-shadow: 0 4px 6px rgba(229, 57, 53, 0.2); }
 .btn-primary:hover { background: #d32f2f; transform: translateY(-1px); box-shadow: 0 6px 12px rgba(229, 57, 53, 0.3); }
@@ -16,7 +16,7 @@ body { background-color: #f0f2f5; color: #2c3e50; line-height: 1.6; }
 .btn-secondary:hover { background: #353f4a; }
 
 /* Formlar ve Filtreler */
-.auth-wrapper, .detail-container, .admin-wrapper { background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); margin: 20px auto; max-width: 1200px; width: 95%; }
+.auth-wrapper, .detail-container, .admin-wrapper { background: #fff; padding: 35px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); margin: 20px auto; max-width: 1200px; width: 95%; border: 1px solid #eaeaea; }
 .filter-group { display: flex; flex-direction: column; width: 100%; }
 .filter-group label { font-size: 14px; color: #5c6ac4; margin-bottom: 6px; font-weight: 600; }
 select, input, textarea { padding: 14px; border: 1px solid #dfe3e8; border-radius: 8px; width: 100%; font-size: 15px; background: #fff; transition: border-color 0.3s, box-shadow 0.3s; color: #212b36; }
@@ -25,40 +25,41 @@ select:focus, input:focus, textarea:focus { outline: none; border-color: #e53935
 /* İçerik Düzeni */
 .content-wrapper { display: flex; flex-direction: column; gap: 25px; max-width: 1250px; margin: 30px auto; width: 95%; }
 
-/* YENİ: Hero (Vitrin) Arama Alanı */
-.hero-section { background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%); padding: 35px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); border: 1px solid #eaeaea; }
-.hero-title { color: #1a1c20; margin-bottom: 20px; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+/* YENİ: Hero (Vitrin) Arama Alanı - ORTALANDI VE KÜÇÜLTÜLDÜ */
+.hero-section { background: linear-gradient(135deg, #ffffff 0%, #f4f6f8 100%); padding: 50px 20px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #eaeaea; text-align: center; }
+.hero-title { color: #1a1c20; margin-bottom: 25px; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
 
-/* YENİ: Sekmeler (Tabs) Profesyonel Görünüm */
-.tab-container { display: flex; gap: 12px; margin-bottom: 20px; }
-.type-tab { padding: 10px 24px; border: 1px solid #dfe3e8; background: #fff; color: #454f5b; border-radius: 30px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s ease; }
+/* YENİ: Sekmeler (Tabs) Profesyonel Görünüm - ORTALANDI */
+.tab-container { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; }
+.type-tab { padding: 12px 35px; border: 2px solid #dfe3e8; background: #fff; color: #454f5b; border-radius: 30px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s ease; }
 .type-tab:hover { background: #f4f6f8; border-color: #c4cdd5; }
-.type-tab.active { background: #e53935; color: #fff; border-color: #e53935; box-shadow: 0 4px 10px rgba(229, 57, 53, 0.25); }
+.type-tab.active { background: #e53935; color: #fff; border-color: #e53935; box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3); }
 
-/* Arama Kutusu */
-.search-box { display: flex; gap: 12px; }
-.search-box input { flex: 1; padding: 16px 20px; font-size: 16px; border-radius: 10px; border: 2px solid #eee; transition: 0.3s; }
-.search-box input:focus { border-color: #e53935; }
-.search-box button { padding: 16px 35px; font-size: 16px; border-radius: 10px; }
+/* YENİ: Premium Kapsül Arama Kutusu */
+.search-box { display: flex; gap: 10px; max-width: 650px; margin: 0 auto; background: #fff; padding: 8px; border-radius: 50px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid #eee; }
+.search-box input { flex: 1; padding: 15px 25px; font-size: 16px; border-radius: 50px; border: none; background: transparent; outline: none; }
+.search-box input:focus { box-shadow: none; }
+.search-box button { padding: 15px 40px; font-size: 16px; border-radius: 40px; background: #1a1c20; color: #fff; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.search-box button:hover { background: #e53935; transform: scale(1.02); }
 
 /* Filtre Kenar Çubuğu */
-.sidebar-filter { flex: 1; min-width: 260px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); height: fit-content; border: 1px solid #eaeaea; }
+.sidebar-filter { flex: 1; min-width: 260px; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); height: fit-content; border: 1px solid #eaeaea; }
 .sidebar-title { border-bottom: 2px solid #f0f2f5; padding-bottom: 15px; margin-bottom: 20px; color: #1a1c20; font-size: 18px; font-weight: 700; }
 
 /* Premium İlan Kartları */
 .listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 25px; }
-.card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.06); text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; position: relative; border: 1px solid #f0f2f5; }
-.card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); border-color: #dfe3e8; }
+.card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s; display: flex; flex-direction: column; position: relative; border: 1px solid transparent; }
+.card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #eaeaea; }
 .card-img-container { position: relative; width: 100%; height: 210px; background: #fafafa; }
 .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
 .badge-type { position: absolute; top: 12px; left: 12px; padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-.card-content { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
-.card-content h3 { font-size: 16px; margin-bottom: 8px; color: #1a1c20; line-height: 1.4; font-weight: 600; }
+.card-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+.card-content h3 { font-size: 16px; margin-bottom: 8px; color: #1a1c20; line-height: 1.4; font-weight: 700; }
 .card-content .price { font-size: 20px; font-weight: 800; color: #e53935; margin-bottom: 12px; }
 .card-content .details { font-size: 13px; color: #919eab; margin-top: auto; font-weight: 500; display: flex; align-items: center; border-top: 1px solid #f0f2f5; padding-top: 12px; }
 
 /* Favori Kalp Butonu */
-.fav-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.95); border: none; border-radius: 50%; padding: 10px; cursor: pointer; z-index: 10; font-size: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.2s; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; }
+.fav-btn { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.95); border: none; border-radius: 50%; padding: 10px; cursor: pointer; z-index: 10; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; }
 .fav-btn:hover { transform: scale(1.1); background: #fff; }
 
 /* Ekspertiz Kutuları */
@@ -76,9 +77,10 @@ select:focus, input:focus, textarea:focus { outline: none; border-color: #e53935
 @media (max-width: 768px) {
     .navbar { flex-direction: column; align-items: flex-start; padding: 15px 20px; }
     .navbar nav { margin-top: 15px; width: 100%; justify-content: space-between; gap: 10px; }
-    .hero-section { padding: 20px; }
-    .search-box { flex-direction: column; }
-    .search-box button { width: 100%; }
+    .hero-section { padding: 30px 15px; }
+    .search-box { flex-direction: column; border-radius: 15px; background: transparent; box-shadow: none; border: none; padding: 0; }
+    .search-box input { border-radius: 10px; border: 1px solid #dfe3e8; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .search-box button { width: 100%; border-radius: 10px; }
     .detail-container { padding: 20px; }
     .detail-flex { flex-direction: column; }
     #det-img { height: 250px !important; }
