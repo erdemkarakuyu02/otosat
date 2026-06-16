@@ -7,37 +7,79 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar"><a href="index.html" class="logo">Otosat.org</a><nav></nav></header>
+    <header class="navbar"><a href="index.html" class="logo">Otosat.org</a><nav id="main-nav"></nav></header>
     <div class="content-wrapper" style="margin-top: 20px;">
-        <div class="auth-wrapper" style="max-width: 900px; width: 100%;">
+        <div class="auth-wrapper" style="max-width: 1000px; width: 100%;">
             <h2 style="color: #2196F3; margin-bottom: 25px; border-bottom: 2px solid #2196F3; padding-bottom: 10px;">✏️ İlanını Düzenle</h2>
             <form id="edit-listing-form">
                 
+                <!-- ELLE YAZMA KALKTI, OTOMATİK MENÜLER GELDİ -->
                 <h3 style="margin-top: 10px; margin-bottom:15px; color:#333;">Temel Bilgiler</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                    <div class="filter-group"><label>Kategori</label><select id="form-category" required></select></div>
                     <div class="filter-group"><label>Durumu</label><select id="form-type" required><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select></div>
-                    <div class="filter-group"><label>Marka (Elle Yaz)</label><input type="text" id="form-brand" required></div>
-                    <div class="filter-group"><label>Model (Elle Yaz)</label><input type="text" id="form-model" required></div>
+                    <div class="filter-group"><label>Kategori</label><select id="form-category" required></select></div>
+                    <div class="filter-group"><label>Marka</label><select id="form-brand" required disabled></select></div>
+                    <div class="filter-group"><label>Model</label><select id="form-model" required disabled></select></div>
                     <div class="filter-group"><label>Yıl</label><input type="number" id="form-year" required></div>
                     <div class="filter-group"><label>Kilometre</label><input type="number" id="form-km" required></div>
                     <div class="filter-group"><label>Yakıt</label><select id="form-fuel" required><option value="Benzin">Benzin</option><option value="Dizel">Dizel</option><option value="LPG & Benzin">LPG & Benzin</option><option value="Elektrik">Elektrik</option><option value="Hibrit">Hibrit</option><option value="Yok">Yok</option></select></div>
                     <div class="filter-group"><label>Vites</label><select id="form-gear" required><option value="Manuel">Manuel</option><option value="Otomatik">Otomatik</option><option value="Yarı Otomatik">Yarı Otomatik</option><option value="Yok">Yok</option></select></div>
                 </div>
 
+                <div id="expertise-wrapper">
+                    <h3 style="margin-top: 35px; border-bottom: 2px solid #5c6ac4; padding-bottom: 10px; color:#5c6ac4;">🛡️ Durum, Hasar ve Takas Bilgileri</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div class="filter-group"><label>Takasa Açık mı?</label><select id="form-takas"><option value="Hayır">Hayır, takas düşünmüyorum</option><option value="Evet">Evet, takas değerlendirilir</option></select></div>
+                        <div class="filter-group"><label>Ağır Hasar / Pert Kaydı</label><select id="form-hasar-kaydi"><option value="Yok">Yok</option><option value="Var">Var (Ağır Hasarlı)</option></select></div>
+                        <div class="filter-group"><label>Tramer Tutarı (TL)</label><input type="text" id="form-tramer" placeholder="Örn: 12.500 TL (Yoksa boş bırakın)"></div>
+                    </div>
+
+                    <div id="car-expertise" style="display:none; margin-top: 20px; background: #f4f6f8; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                        <h4 style="margin-bottom: 15px; color:#444;">Otomobil / SUV Kaporta Aksamı</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                            <div class="filter-group"><label>Kaput</label><select id="c-kaput"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Tavan</label><select id="c-tavan"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Bagaj Kapağı</label><select id="c-bagaj"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sol Ön Çamurluk</label><select id="c-sol-on-camurluk"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sol Ön Kapı</label><select id="c-sol-on-kapi"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sol Arka Kapı</label><select id="c-sol-arka-kapi"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sol Arka Çamurluk</label><select id="c-sol-arka-camurluk"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sağ Ön Çamurluk</label><select id="c-sag-on-camurluk"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sağ Ön Kapı</label><select id="c-sag-on-kapi"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sağ Arka Kapı</label><select id="c-sag-arka-kapi"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Sağ Arka Çamurluk</label><select id="c-sag-arka-camurluk"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Lokal Boyalı">Lokal Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                        </div>
+                    </div>
+
+                    <div id="moto-expertise" style="display:none; margin-top: 20px; background: #fff8e1; padding: 20px; border-radius: 8px; border: 1px solid #ffecb3;">
+                        <h4 style="margin-bottom: 15px; color:#f57f17;">Motosiklet Aksam Durumu</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                            <div class="filter-group"><label>Şase</label><select id="m-sase"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal (İşlemsiz)</option><option value="İşlemli">İşlemli / Kaynaklı</option></select></div>
+                            <div class="filter-group"><label>Ön Mesnet</label><select id="m-mesnet"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Değişen">Değişen / İşlemli</option></select></div>
+                            <div class="filter-group"><label>Yakıt Deposu</label><select id="m-depo"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı</option><option value="Değişen">Değişen</option></select></div>
+                            <div class="filter-group"><label>Ön Grenaj / Kafa</label><select id="m-on-grenaj"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı / Tamirli</option><option value="Değişen">Değişen (Yan Sanayi)</option></select></div>
+                            <div class="filter-group"><label>Yan / Arka Grenajlar</label><select id="m-yan-grenaj"><option value="Belirtilmemiş">Belirtilmemiş</option><option value="Orijinal">Orijinal</option><option value="Boyalı">Boyalı / Çizik</option><option value="Değişen">Değişen</option></select></div>
+                        </div>
+                    </div>
+                </div>
+
                 <h3 style="margin-top: 35px; border-bottom: 2px solid #e53935; padding-bottom: 10px;">İletişim ve Detaylar</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="filter-group"><label>İl</label><select id="form-city" required></select></div>
+                    <div class="filter-group"><label>İlçe</label><select id="form-district" required disabled></select></div>
+                </div>
                 <div class="filter-group" style="margin-bottom: 15px;"><label>İlan Başlığı</label><input type="text" id="form-title" required></div>
                 <div class="filter-group" style="margin-bottom: 15px;"><label>Telefon Numarası</label><input type="tel" id="form-phone" required></div>
-                <div class="filter-group" style="margin-bottom: 15px;"><label>Fiyat (Sadece Rakam)</label><input type="number" id="form-price" required></div>
+                <div class="filter-group" style="margin-bottom: 15px;"><label>Fiyat (Sadece Rakam TL)</label><input type="number" id="form-price" required></div>
                 <div class="filter-group" style="margin-bottom: 20px;"><label>Açıklama</label><textarea id="form-desc" rows="5" required></textarea></div>
                 
                 <div class="filter-group" style="margin-bottom: 25px; border: 2px dashed #ccc; padding: 20px; text-align: center; border-radius: 8px;">
                     <label style="cursor: pointer; display: block;">
                         <span style="font-size: 24px;">📸</span><br>
-                        <span style="color: #2196F3; font-weight: bold; font-size: 16px;">Yeni Fotoğraf Seç (Zorunlu Değil)</span>
+                        <span style="color: #2196F3; font-weight: bold; font-size: 16px;">Yeni Fotoğraf Ekle (İsteğe Bağlı)</span>
                         <input type="file" id="form-image" accept="image/*" multiple style="display: none;">
                     </label>
-                    <p style="font-size:12px; color:#888; margin-top:5px;">Fotoğraf seçmezseniz eski fotoğraflarınız korunur.</p>
+                    <p style="font-size:12px; color:#888; margin-top:5px;">Fotoğraf seçmezseniz mevcut fotoğraflarınız korunur.</p>
                 </div>
 
                 <button type="submit" id="submit-btn" class="btn-primary" style="background: #2196F3; width: 100%; padding: 15px; font-size: 18px;">Değişiklikleri Onaya Gönder</button>
