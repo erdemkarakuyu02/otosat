@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar"><a href="index.html" class="logo">Otosat.org <span style="font-size: 14px; color: #555;">/ Admin</span></a></header>
+    <header class="navbar"><a href="index.html" class="logo">Otosat.org <span style="font-size: 14px; color: #919eab;">/ Admin</span></a><nav id="main-nav"></nav></header>
     <div class="admin-wrapper">
         
         <h2 style="margin-top:20px; border-bottom:2px solid #2196F3; padding-bottom:10px;">📢 Kullanıcılara Bildirim Gönder</h2>
@@ -31,15 +31,15 @@
         <h2 style="border-bottom:2px solid #9c27b0; padding-bottom:10px;">👥 Sistemde Kayıtlı Tüm Kullanıcılar</h2>
         <div style="overflow-x: auto;">
             <table class="admin-table" style="margin-bottom: 40px;">
-                <thead><tr><th>Adı Soyadı</th><th>E-Posta Adresi</th></tr></thead>
-                <tbody id="admin-users-body"><tr><td colspan="2" style="text-align:center; color:#888;">Yükleniyor...</td></tr></tbody>
+                <thead><tr><th>Adı Soyadı</th><th>E-Posta Adresi</th><th>İşlem</th></tr></thead>
+                <tbody id="admin-users-body"><tr><td colspan="3" style="text-align:center; color:#888;">Yükleniyor...</td></tr></tbody>
             </table>
         </div>
 
         <h2 style="border-bottom:2px solid #e53935; padding-bottom:10px;">⏳ Onay Bekleyen İlanlar</h2>
         <div style="overflow-x: auto;">
-            <table class="admin-table">
-                <thead><tr><th>Görsel</th><th>Başlık</th><th>Bilgi</th><th>İletişim</th><th>İşlem</th></tr></thead>
+            <table class="admin-table" style="margin-bottom: 40px;">
+                <thead><tr><th>Görsel</th><th>Başlık / Sahibi</th><th>Araç Bilgisi</th><th>İletişim</th><th>İşlem</th></tr></thead>
                 <tbody id="admin-listings-body"></tbody>
             </table>
         </div>
