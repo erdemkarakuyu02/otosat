@@ -17,16 +17,12 @@
     </header>
 
     <div class="content-wrapper">
-        
-        <!-- YENİ: ZORLA ORTALANMIŞ VE DARALTILMIŞ VİTRİN ALANI -->
         <section class="hero-section">
             <h1 class="hero-title">Hayalindeki Aracı Bul</h1>
-            
             <div class="tab-container">
                 <button class="type-tab active" data-type="Satılık">Satılık</button>
                 <button class="type-tab" data-type="Kiralık">Kiralık</button>
             </div>
-
             <div class="search-box">
                 <input type="text" placeholder="Kelime, marka veya araç modeli yazın...">
                 <button class="btn-search">Hemen Ara</button>
@@ -34,39 +30,57 @@
         </section>
 
         <div style="display: flex; gap: 25px; flex-wrap: wrap;">
-            
-            <!-- SOL FİLTRE KENAR ÇUBUĞU -->
+            <!-- GELİŞMİŞ SOL FİLTRE -->
             <aside class="sidebar-filter">
                 <h3 class="sidebar-title">Detaylı Filtre</h3>
                 
                 <select id="filter-type" style="display:none;"><option value="Satılık" selected>Satılık</option><option value="Kiralık">Kiralık</option></select>
                 
-                <div class="filter-group" style="margin-bottom: 18px;">
+                <div class="filter-group" style="margin-bottom: 15px;">
                     <label>Kategori</label>
                     <select id="filter-category"><option value="all">Tüm Kategoriler</option></select>
                 </div>
                 
-                <div class="filter-group" style="margin-bottom: 18px;">
+                <div class="filter-group" style="margin-bottom: 15px;">
                     <label>Marka</label>
                     <select id="filter-brand"><option value="all">Tüm Markalar</option></select>
                 </div>
+
+                <!-- YENİ EKLENEN FİLTRELER -->
+                <div class="filter-group" style="margin-bottom: 15px;">
+                    <label>Model</label>
+                    <select id="filter-model" disabled><option value="all">Önce Marka Seçin</option></select>
+                </div>
+
+                <div class="filter-group" style="margin-bottom: 15px;">
+                    <label>İl</label>
+                    <select id="filter-city"><option value="all">Tüm İller</option></select>
+                </div>
+
+                <div class="filter-group" style="margin-bottom: 15px;">
+                    <label>İlçe</label>
+                    <select id="filter-district" disabled><option value="all">Önce İl Seçin</option></select>
+                </div>
+
+                <div class="filter-group" style="margin-bottom: 18px;">
+                    <label>Yıl Aralığı</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="filter-min-year" placeholder="Min" style="padding: 10px;">
+                        <input type="number" id="filter-max-year" placeholder="Max" style="padding: 10px;">
+                    </div>
+                </div>
                 
-                <button id="filter-button" class="btn-primary" style="width: 100%; margin-top: 10px; background:#454f5b;">Sonuçları Göster</button>
+                <button id="filter-button" class="btn-primary" style="width: 100%; background:#454f5b;">Sonuçları Göster</button>
             </aside>
 
-            <!-- SAĞ İLAN LİSTESİ -->
             <main style="flex: 3; min-width: 300px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2 style="color:#1a1c20; font-size:22px; font-weight:700;">Güncel İlanlar Vitrini</h2>
                 </div>
-                
-                <div class="listing-grid" id="car-listings">
-                    <!-- JS BURAYA İLANLARI DİZECEK -->
-                </div>
+                <div class="listing-grid" id="car-listings"></div>
             </main>
         </div>
     </div>
-    
     <script src="script.js"></script>
 </body>
 </html>
